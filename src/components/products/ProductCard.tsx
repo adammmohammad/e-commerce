@@ -13,6 +13,7 @@ function ProductCard({
   onAddToCart,
   onAddToWishlist,
 }: ProductCardProps) {
+  console.log(product.image);
   return (
     <div className="product-card">
       <div className="product-image">
