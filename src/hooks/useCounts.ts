@@ -1,5 +1,12 @@
-// TEMPORARY stubs. Replace with the real cart/wishlist store
-// (Context or Zustand) once it is merged. Keep the same function names
-// so the Navbar does not need to change.
-export const useCartCount = (): number => 0;
-export const useWishlistCount = (): number => 0;
+
+import { useShop } from "../context/ShopContext";
+
+export const useCartCount = (): number => {
+  const { cartCount } = useShop();
+  return cartCount;
+};
+
+export const useWishlistCount = (): number => {
+  const { wishlist } = useShop();
+  return wishlist.length;
+};
