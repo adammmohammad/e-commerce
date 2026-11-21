@@ -127,3 +127,28 @@
 
   .promo__inner { flex-direction: column; text-align: center; }
 }
+
+/* Add to Cart animation */
+.bestseller-card .btn-primary.added {
+  background-color: #3f8b63;
+  color: white;
+  transform: scale(1.04);
+  animation: bestsellerAddedPop 0.3s ease;
+}
+
+@keyframes bestsellerAddedPop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1.04);
+  }
+}
+
+/* Wishlist heart */
+.bestseller-card__heart.is-active {
+  color: #e60023;
+}

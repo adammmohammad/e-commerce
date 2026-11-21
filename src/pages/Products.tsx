@@ -1,19 +1,15 @@
 
 import { useState } from "react";
 import { products } from "../data/products";
-import type { Product } from "../data/products";
+// import type { Product } from "../data/products";
 import ProductCard from "../components/products/ProductCard";
+import { useShop } from "../context/ShopContext";
 import "./Products.css";
 
-type ProductsProps = {
-  onAddToCart?: (product: Product) => void;
-  onAddToWishlist?: (product: Product) => void;
-};
+function Products() {
+  // Connect Products page with Cart and Wishlist
+  const { addToCart, toggleWishlist } = useShop();
 
-function Products({
-  onAddToCart,
-  onAddToWishlist,
-}: ProductsProps) {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
   const [minPrice, setMinPrice] = useState(0);
@@ -123,8 +119,8 @@ function Products({
               <ProductCard
                 key={product.id}
                 product={product}
-                onAddToCart={onAddToCart}
-                onAddToWishlist={onAddToWishlist}
+                onAddToCart={addToCart}
+                onAddToWishlist={toggleWishlist}
               />
             ))}
           </div>

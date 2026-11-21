@@ -37,7 +37,7 @@
   color: #64172d;
   font-size: 25px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .wishlist-button:hover {
@@ -90,9 +90,40 @@
   border-radius: 7px;
   padding: 10px 14px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.25s ease;
 }
 
 .add-cart-button:hover {
   background-color: #9c3b51;
+}
+
+/* Added to cart animation */
+.add-cart-button.added {
+  background-color: #3f8b63;
+  color: white;
+  transform: scale(1.04);
+  animation: addedPop 0.3s ease;
+}
+
+@keyframes addedPop {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.08);
+  }
+
+  100% {
+    transform: scale(1.04);
+  }
+}
+
+.wishlist-button.active {
+  color: #e60023;
+  background-color: #fff0f2;
+}
+
+.wishlist-button.active:hover {
+  color: #c4001d;
 }
