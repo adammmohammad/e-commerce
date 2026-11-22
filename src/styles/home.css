@@ -1,42 +1,56 @@
 /* ---------- Hero ---------- */
 .hero {
-  background: linear-gradient(110deg, var(--cream) 55%, #ead9d0 100%);
-  overflow: hidden;
   position: relative;
+  overflow: hidden;
+  background: linear-gradient(110deg, #faf2ed 0%, #f6e9e3 60%);
 }
-/* burgundy arc behind the cup */
-.hero::after {
-  content: "";
+
+/* Photo on the right: it fades into the cream background on its left edge */
+.hero__image {
   position: absolute;
-  right: 8%;
-  top: -10%;
-  width: 38%;
-  height: 120%;
-  background: var(--burgundy);
-  border-radius: 45% 0 0 55%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 62%;
   z-index: 0;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 22%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 22%);
 }
+.hero__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 60% 100%;   /* keep the cup in view when the box gets narrow */
+}
+
 .hero__inner {
   position: relative;
   z-index: 1;
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
-  gap: 2rem;
   min-height: 420px;
-  padding: 3rem 0;
+  padding: 2rem 0;
 }
-.hero__eyebrow { letter-spacing: 0.2em; text-transform: uppercase; font-size: 0.8rem; color: var(--burgundy); font-weight: 600; }
+.hero__text { text-align: center; max-width: 480px; justify-self: center; }
+
+.hero__eyebrow {
+  display: flex; align-items: center; justify-content: center; gap: 0.75rem;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  font-size: 0.8rem; font-weight: 600; color: var(--burgundy);
+}
+.hero__eyebrow::before,
+.hero__eyebrow::after { content: ""; flex: 0 1 50px; height: 1px; background: var(--burgundy); }
+
 .hero h1 {
   font-family: var(--font-heading);
   color: var(--burgundy);
-  font-size: clamp(2.2rem, 6vw, 4.5rem);
+  font-size: clamp(3rem, 6.5vw, 6rem);
   line-height: 1;
-  margin: 0.5rem 0 1rem;
+  margin: 0.4rem 0 0.8rem;
 }
-.hero h1 em { display: block; font-style: italic; font-size: 0.8em; }
-.hero__sub { font-family: var(--font-heading); font-size: 1.25rem; margin-bottom: 1.5rem; }
-.hero__image img { margin-inline: auto; max-height: 420px; object-fit: contain; }
+.hero h1 em { display: block; font-style: italic; font-size: 0.72em; margin-top: 0.1em; }
+.hero__sub { font-family: var(--font-heading); font-size: 1.2rem; margin-bottom: 1.5rem; }
 
 /* ---------- Categories ---------- */
 .categories { padding: 1.5rem 0; background: #fbf6f1; }
@@ -86,9 +100,41 @@
 .bestseller-card__heart.is-active { color: var(--rose); }
 
 /* ---------- Promo ---------- */
-.promo { background: var(--burgundy); color: var(--white); padding: 2.5rem 0; }
-.promo__inner { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; }
-.promo h2 { font-family: var(--font-heading); font-style: italic; font-size: clamp(1.6rem, 4vw, 2.5rem); }
+.promo {
+  position: relative;
+  overflow: hidden;
+  background: var(--burgundy);
+  color: var(--white);
+  padding: 1.75rem 0;
+  min-height: 150px;
+  display: flex;
+  align-items: center;
+}
+/* photo on the right, fading into the burgundy */
+.promo__image {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 42%;
+  object-fit: cover;
+  object-position: right center;
+  z-index: 0;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 45%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 45%);
+}
+.promo__inner {
+  position: relative;
+  z-index: 1;
+  width: min(100% - 2rem, var(--container));
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+}
+.promo h2 { font-family: var(--font-heading); font-style: italic; font-size: clamp(1.6rem, 3.2vw, 2.6rem); line-height: 1.15; }
+.promo__text p { opacity: 0.95; }
+/* thin vertical divider before the button, like the mockup */
+.promo__cta { border-left: 1px solid rgba(255, 255, 255, 0.55); padding-left: 3rem; min-height: 70px; display: flex; align-items: center; }
 
 /* ---------- Small laptop / tablet: bestsellers 2 columns, vertical cards ---------- */
 @media (max-width: 1100px) {
@@ -98,18 +144,15 @@
   .bestseller-card__info { width: 100%; }
 }
 
-/* ---------- Tablet ---------- */
-@media (max-width: 1024px) {
-  .hero::after { width: 45%; right: 0; }
-}
-
 /* ---------- Phone: hero stays side by side, 4 categories in one row, 1 bestseller per row ---------- */
 @media (max-width: 768px) {
-  .hero__inner { grid-template-columns: 1.1fr 0.9fr; min-height: 260px; padding: 1.5rem 0; gap: 0.5rem; }
-  .hero::after { width: 50%; top: 0; height: 100%; border-radius: 50% 0 0 50%; }
+  .hero__inner { grid-template-columns: 1fr; min-height: 300px; padding: 1.5rem 0; }
+  .hero__text { max-width: 54%; justify-self: start; }
+  .hero__image { width: 66%; }
+  .hero__image img { object-position: 42% 100%; }
   .hero__eyebrow { display: none; }
-  .hero__sub { font-size: 0.95rem; margin-bottom: 1rem; }
-  .hero__image img { max-height: 220px; }
+  .hero h1 { font-size: clamp(2.4rem, 11vw, 3.2rem); margin-bottom: 0.5rem; }
+  .hero__sub { font-size: 0.85rem; margin-bottom: 1rem; }
   .hero .btn { padding: 0.55rem 1rem; font-size: 0.85rem; }
 
   .categories { padding: 1rem 0; }
@@ -125,7 +168,10 @@
   .bestseller-card img { width: 90px; height: 130px; }
   .bestseller-card__info { width: auto; }
 
-  .promo__inner { flex-direction: column; text-align: center; }
+  .promo { padding: 1.75rem 0; }
+  .promo__image { width: 100%; opacity: 0.3; -webkit-mask-image: none; mask-image: none; }
+  .promo__inner { grid-template-columns: 1fr; gap: 1.25rem; text-align: center; justify-items: center; }
+  .promo__cta { border-left: none; padding-left: 0; min-height: 0; }
 }
 
 /* Add to Cart animation */
