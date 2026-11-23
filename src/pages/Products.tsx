@@ -1,21 +1,33 @@
 
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { products } from "../data/products";
-import type { Product } from "../data/products";
 import ProductCard from "../components/products/ProductCard";
+import { useShop } from "../context/useShop";
 import "./Products.css";
 
-type ProductsProps = {
-  onAddToCart?: (product: Product) => void;
-  onAddToWishlist?: (product: Product) => void;
-};
+function Products() {
+  // Connect Products page with Cart and Wishlist
+  const { addToCart, toggleWishlist } = useShop();
 
-function Products({
-  onAddToCart,
-  onAddToWishlist,
-}: ProductsProps) {
-  const [search, setSearch] = useState("");
-  const [category, setCategory] = useState("All");
+  // Search and category are stored in the URL
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const search = searchParams.get("search") ?? "";
+  const category = searchParams.get("category") ?? "All";
+
+  const updateParam = (key: string, value: string) => {
+    const next = new URLSearchParams(searchParams);
+
+    if (value && value !== "All") {
+      next.set(key, value);
+    } else {
+      next.delete(key);
+    }
+
+    setSearchParams(next, { replace: true });
+  };
+
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(100);
   const [sort, setSort] = useState("default");
@@ -67,13 +79,13 @@ function Products({
             type="text"
             placeholder="Search for coffee..."
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) => updateParam("search", e.target.value)}
             className="search-input"
           />
 
           <select
             value={category}
-            onChange={(e) => setCategory(e.target.value)}
+            onChange={(e) => updateParam("category", e.target.value)}
             className="filter-select"
           >
             {categories.map((item) => (
@@ -123,8 +135,8 @@ function Products({
               <ProductCard
                 key={product.id}
                 product={product}
-                onAddToCart={onAddToCart}
-                onAddToWishlist={onAddToWishlist}
+                onAddToCart={addToCart}
+                onAddToWishlist={toggleWishlist}
               />
             ))}
           </div>
