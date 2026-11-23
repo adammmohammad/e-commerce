@@ -76,9 +76,6 @@
 
 .navbar__searchbar { background: var(--burgundy-dark); padding: 0.75rem 0; }
 
-.bottom-nav,
-.bottom-searchbar { display: none; }
-
 /* ---------- Tablet (<= 1024px) ---------- */
 @media (max-width: 1024px) {
   .navbar__inner { gap: 1rem; }
@@ -116,6 +113,19 @@
 @media (max-width: 768px) {
   /* The top navbar disappears; the bottom bar takes over */
   .navbar { display: none; }
+
+  /* Slim logo-only bar at the top */
+  .mobile-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 56px;
+    background: var(--burgundy);
+  }
+  .mobile-topbar img { width: 44px; height: 44px; }
 
   .bottom-nav {
     position: fixed;
@@ -157,4 +167,12 @@
 
   /* keep page content clear of the fixed bottom bar */
   body { padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px)); }
+}
+
+/* ---------- Tablet + desktop (>= 769px): phone-only parts are hidden ---------- */
+/* Uses min-width so it can never clash with the phone rules above, whatever the order */
+@media (min-width: 769px) {
+  .bottom-nav,
+  .bottom-searchbar,
+  .mobile-topbar { display: none; }
 }

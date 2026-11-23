@@ -113,7 +113,12 @@ export default function Navbar() {
           </div>
         )}
       </header>
-
+{/* Phone: slim top bar with just the logo (the main navbar is hidden on phones) */}
+<div className="mobile-topbar">
+  <Link to="/" aria-label="Berga Ice Coffee home" onClick={closeAll}>
+    <img src="src/assets/logo.png" alt="Berga Ice Coffee" />
+  </Link>
+</div>
       {/* Phone: search bar that opens just above the bottom tab bar */}
       {searchOpen && (
         <div className="bottom-searchbar">
