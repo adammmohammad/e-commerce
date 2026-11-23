@@ -1,5 +1,5 @@
 
-import { useShop } from "../context/ShopContext";
+import { useShop } from "../context/useShop";
 import "../styles/shopping.css";
 
 interface CartProps {

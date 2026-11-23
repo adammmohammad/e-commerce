@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { products } from "../data/products";
 import ProductCard from "../components/products/ProductCard";
-import { useShop } from "../context/ShopContext";
+import { useShop } from "../context/useShop";
 import "./Products.css";
 
 function Products() {

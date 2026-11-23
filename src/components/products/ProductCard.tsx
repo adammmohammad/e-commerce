@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 import type { Product } from "../../data/products";
-import { useShop } from "../../context/ShopContext";
+import { useShop } from "../../context/useShop";
 import "./ProductCard.css";
 
 type ProductCardProps = {
