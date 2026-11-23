@@ -1,6 +1,7 @@
 
 import { useState, type FormEvent } from "react";
-import { useShop } from "../context/ShopContext";
+import { useShop } from "../context/useShop";
+import { validateCheckout, type CheckoutErrors } from "../schemas/checkoutSchema";
 import "../styles/shopping.css";
 
 interface CheckoutProps {
@@ -21,6 +22,8 @@ export default function Checkout({
     address: "",
   });
 
+  const [errors, setErrors] = useState<CheckoutErrors>({});
+
   const [payment, setPayment] = useState("Cash on Delivery");
 
   const shipping = subtotal >= 30 ? 0 : 3;
@@ -30,6 +33,11 @@ export default function Checkout({
     event.preventDefault();
 
     if (cart.length === 0) return;
+
+    // validate first: an invalid form is never submitted
+    const validationErrors = validateCheckout(customer);
+    setErrors(validationErrors);
+    if (Object.keys(validationErrors).length > 0) return;
 
     const order = {
       id: Date.now(),
@@ -79,7 +87,7 @@ export default function Checkout({
         <p>Complete your details and get ready for your coffee.</p>
       </div>
 
-      <form className="checkout-layout" onSubmit={handleSubmit}>
+      <form className="checkout-layout" onSubmit={handleSubmit} noValidate>
         <section className="checkout-form">
           <div className="checkout-section">
             <span className="eyebrow">STEP 01</span>
@@ -95,8 +103,14 @@ export default function Checkout({
                 onChange={(e) =>
                   setCustomer({ ...customer, name: e.target.value })
                 }
+                aria-invalid={Boolean(errors.name)}
                 required
               />
+              {errors.name && (
+                <p className="field-error" role="alert">
+                  {errors.name}
+                </p>
+              )}
             </div>
 
             <div className="form-field">
@@ -109,8 +123,14 @@ export default function Checkout({
                 onChange={(e) =>
                   setCustomer({ ...customer, email: e.target.value })
                 }
+                aria-invalid={Boolean(errors.email)}
                 required
               />
+              {errors.email && (
+                <p className="field-error" role="alert">
+                  {errors.email}
+                </p>
+              )}
             </div>
 
             <div className="form-field">
@@ -123,8 +143,14 @@ export default function Checkout({
                 onChange={(e) =>
                   setCustomer({ ...customer, phone: e.target.value })
                 }
+                aria-invalid={Boolean(errors.phone)}
                 required
               />
+              {errors.phone && (
+                <p className="field-error" role="alert">
+                  {errors.phone}
+                </p>
+              )}
             </div>
           </div>
 
@@ -142,8 +168,14 @@ export default function Checkout({
                 onChange={(e) =>
                   setCustomer({ ...customer, address: e.target.value })
                 }
+                aria-invalid={Boolean(errors.address)}
                 required
               />
+              {errors.address && (
+                <p className="field-error" role="alert">
+                  {errors.address}
+                </p>
+              )}
             </div>
           </div>
 

@@ -1,5 +1,5 @@
 
-import { useShop } from "../context/ShopContext";
+import { useShop } from "../context/useShop";
 
 export const useCartCount = (): number => {
   const { cartCount } = useShop();

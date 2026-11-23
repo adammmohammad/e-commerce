@@ -1,6 +1,6 @@
 
 import { products, type Product } from "../../data/products";
-import { useShop } from "../../context/ShopContext";
+import { useShop } from "../../context/useShop";
 import BestsellerCard from "./BestsellerCard";
 
 const BESTSELLER_IDS = [1, 2, 3, 4];

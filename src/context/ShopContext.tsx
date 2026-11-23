@@ -1,30 +1,12 @@
 
 import {
-  createContext,
-  useContext,
   useEffect,
   useState,
   type ReactNode,
 } from "react";
 
 import type { Product, CartItem } from "../types/product";
-
-interface ShopContextType {
-  cart: CartItem[];
-  wishlist: Product[];
-
-  addToCart: (product: Product) => void;
-  removeFromCart: (productId: number) => void;
-  updateQuantity: (productId: number, quantity: number) => void;
-
-  toggleWishlist: (product: Product) => void;
-  isInWishlist: (productId: number) => boolean;
-
-  cartCount: number;
-  subtotal: number;
-}
-
-const ShopContext = createContext<ShopContextType | undefined>(undefined);
+import { ShopContext } from "./ShopContextValue";
 
 export function ShopProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>(() => {
@@ -45,7 +27,6 @@ export function ShopProvider({ children }: { children: ReactNode }) {
     localStorage.setItem("coffee_wishlist", JSON.stringify(wishlist));
   }, [wishlist]);
 
-  // Add product to cart
   const addToCart = (product: Product) => {
     setCart((previousCart) => {
       const existingItem = previousCart.find(
@@ -64,14 +45,12 @@ export function ShopProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  // Remove product from cart
   const removeFromCart = (productId: number) => {
     setCart((previousCart) =>
       previousCart.filter((item) => item.product.id !== productId)
     );
   };
 
-  // Change product quantity
   const updateQuantity = (productId: number, quantity: number) => {
     if (quantity <= 0) {
       removeFromCart(productId);
@@ -87,7 +66,6 @@ export function ShopProvider({ children }: { children: ReactNode }) {
     );
   };
 
-  // Add or remove product from wishlist
   const toggleWishlist = (product: Product) => {
     setWishlist((previousWishlist) => {
       const exists = previousWishlist.some(
@@ -108,13 +86,11 @@ export function ShopProvider({ children }: { children: ReactNode }) {
     return wishlist.some((item) => item.id === productId);
   };
 
-  // Total number of items in cart
   const cartCount = cart.reduce(
     (total, item) => total + item.quantity,
     0
   );
 
-  // Cart subtotal
   const subtotal = cart.reduce(
     (total, item) => total + item.product.price * item.quantity,
     0
@@ -137,14 +113,4 @@ export function ShopProvider({ children }: { children: ReactNode }) {
       {children}
     </ShopContext.Provider>
   );
-}
-
-export function useShop() {
-  const context = useContext(ShopContext);
-
-  if (!context) {
-    throw new Error("useShop must be used inside ShopProvider");
-  }
-
-  return context;
 }
